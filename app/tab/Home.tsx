@@ -1,7 +1,6 @@
 import { Image, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react'
 import Poduct from '@/components/Poduct'
-import { Feather, Ionicons } from '@expo/vector-icons'
 import { useNavigation } from 'expo-router'
 // import { data } from '../res/data'
 import { SafeAreaView } from 'react-native-safe-area-context'
