@@ -76,7 +76,6 @@ const styles = StyleSheet.create({
     Scroll: {
         flex: 1,
         backgroundColor: "#4545",
-hhhhhh
     }
 
 
