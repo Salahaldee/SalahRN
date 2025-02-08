@@ -1,137 +1,129 @@
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
-import React, { useContext, useEffect, useState } from 'react'
-import { useRoute } from '@react-navigation/native'
-import { Feather, Ionicons } from '@expo/vector-icons'
-import { useNavigation } from 'expo-router'
-import cart from './tab/cart';
-import StoreContext from '@/Store/StoreContext'
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import React, { useContext, useState, useEffect } from 'react';
+import { Ionicons } from '@expo/vector-icons';
+import { Link, useLocalSearchParams, useNavigation } from 'expo-router';
+import StoreContext from '@/Store/StoreContext';
 
-const Screen2 = (props) => {
-    const nav = useNavigation()
-    const navigate = useNavigation();
-    const [x, SetX] = useState(1)
-    const { cart, setCart } = useContext(StoreContext)
+const Screen2 = () => {
+    const params = useLocalSearchParams();
+    const navigation = useNavigation();
+    const { cart, setCart } = useContext(StoreContext);
+    const [quantity, setQuantity] = useState(1);
+    const { name, price, size,image } = params;
 
-    const router = useRoute()
-    const addtocart = () => {
-        const CartList = [...cart]
-        const product = router.params
-        product.quantity = x;
-        CartList.push(product)
-        setCart(CartList)
-        nav.navigate('cart')
-    }
-
-    const Add = () => {
-
-        const addQuantity = router.params.quantity += 1
-        console.log("x", addQuantity);
-        console.log(router.params.quantity);
-        SetX(x + 1)
-    }
-    const Minus = () => {
-        if (x > 1)
-            SetX(x - 1)
-    }
+    console.log("image",image);
     
-    const goToHome = () => {
-        navigate.navigate("Home")
+
+    const addToCart = () => {
+        const updatedCart = [...cart, { name, price, size, quantity,image }];
+        setCart(updatedCart);
+        // navigation.push('./tab/cart');
+    };
+
+    const increaseQuantity = () => setQuantity(quantity + 1);
+    const decreaseQuantity = () => {
+        if (quantity > 1) setQuantity(quantity - 1);
     };
 
     useEffect(() => {
-        console.log("cart");
-        console.log(cart.length);
-        
-      }, [cart])
+        console.log("Cart length:", cart.length);
+    }, [cart]);
 
     return (
-        <View style={styles.mmmn}>
-            <View style={styles.hed}>
-               
+        <View style={styles.container}>
+            <View style={styles.header}>
                 <View style={styles.center}>
-                    <Text style={styles.name}>{router.params.name}</Text>
+                    <Text style={styles.productName}>{name}</Text>
                 </View>
             </View>
-            
-            
+
             <View style={styles.center}>
-                 <Text style={styles.funText}>{router.params.price * x}₪</Text>
+                <Text style={styles.totalPrice}>{price * quantity}₪</Text>
 
-                    <TouchableOpacity onPress={Add}>
-                        <Text style={styles.funText}>+</Text>
+                <TouchableOpacity onPress={increaseQuantity}>
+                    <Text style={styles.actionText}>+</Text>
+                </TouchableOpacity>
 
-                    </TouchableOpacity>
-                    <Text style={styles.funText}>{x}</Text>
-                    <TouchableOpacity onPress={Minus}>
+                <Text style={styles.actionText}>{quantity}</Text>
 
-                        <Text style={styles.funText}>-</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={addtocart}>
+                <TouchableOpacity onPress={decreaseQuantity}>
+                    <Text style={styles.actionText}>-</Text>
+                </TouchableOpacity>
 
-                        <Text style={styles.smkc}>add to cart</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={goToHome}>
-                        <Ionicons name='chevron-forward-outline' size={45} color={"#000000"} style={styles.ic} />
-                    </TouchableOpacity> 
+                <Link
+                    onPress={addToCart}
+                    href={{
+                        pathname: '/tab/cart',
+                    }}
+                    style={styles.addToCartButton1}
+                >
+                    {/* <TouchableOpacity
+                        onPress={addToCart}
+                    > */}
+                    <Text style={styles.addToCartButton}>Add to Cart</Text>
+                    {/* </TouchableOpacity> */}
+                </Link>
 
+                <TouchableOpacity
+                    onPress={() => navigation.goBack()}
+                >
+                    <Ionicons name="chevron-forward-outline" size={45} color="#000000" style={styles.icon} />
+                </TouchableOpacity>
             </View>
-
-
         </View>
-    )
-}
+    );
+};
 
-export default Screen2
+export default Screen2;
 
 const styles = StyleSheet.create({
-    pic: {
-        width: 400,
-        height: 360,
-        backgroundColor: "black"
+    container: {
+        backgroundColor: "#FDF5E6",
+        flex: 1,
+        marginTop: 35,
     },
-    name: {
+    header: {
+        flexDirection: 'row',
+    },
+    center: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: 20,
+    },
+    productName: {
         fontSize: 30,
-        color: "#000000",
-        // textAlign:'center'
+        color: "#00000",
     },
-    funText: {
+    totalPrice: {
+        fontSize: 40,
+        textAlign: 'center',
+        marginVertical: 3,
+        color: "#000000",
+    },
+    actionText: {
         fontSize: 40,
         textAlign: 'center',
         marginVertical: 3,
         color: "#000000",
         top: 2,
-
     },
-    mmmn: {
-        backgroundColor: "#FDF5E6",
-        flex: 1,
-        marginTop: 35,
-
-    },
-    smkc: {
+    addToCartButton: {
         color: "black",
+        fontSize: 30,
+        textAlign:'center',
+        margin:50
+    },
+    addToCartButton1: {
         backgroundColor: "white",
         width: 154,
-        height: 40,
-        fontSize: 30,
         marginLeft: 5,
-        borderRadius: 38,
-        alignSelf: "center"
-
-    },
-    ic: {
-        marginLeft: 320,
-        marginTop:190
+        borderRadius: 18,
+        paddingVertical:3
         
     },
-    hed: {
-        flexDirection: 'row',
+    icon: {
+        marginLeft: 320,
+        marginTop: 190,
     },
-    center: {
-        flex: 1,
-        // backgroundColor:'red'
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginTop:20
-    }
-})
+});

@@ -1,9 +1,8 @@
-import { Alert, Button, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Alert, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react'
 import { TextInput } from 'react-native-gesture-handler'
 import { useNavigation } from 'expo-router'
-import { Feather } from '@expo/vector-icons'
-import { SearchBar } from 'react-native-screens'
+import { login } from './../constants/API';
 
 const Login = () => {
     const [phone, setphone] = useState('')
@@ -14,36 +13,40 @@ const Login = () => {
 
     console.log(phone);
     console.log(password);
-    const nav = useNavigation()
     const pressRegister = () => {
-        nav.navigate('Register')
+        navigate.navigate('Register')
     }
-   
 
-    const presslogin = () => {
-        if (username == 'salah aldeen' && password == 'salah2494') {
-            nav.navigate("tab")
-        }
-        else {
-            Alert.alert("user name or password not valid")
-        }
+    const loginApi = () => {
+        login({ phone: phone, passwsord: password })
+            .then((res) => {
+                if (res.success) {
+                    navigate.navigate('tab');
+                }else{
+                    alert("faild")
+                }
+                // return res
+            })
+            .catch((e) => {
+                alert("faild")
+            })
     }
 
     return (
         <View style={styles.container}>
-            
+
             <View style={{ flex: 1, alignItems: "center", justifyContent: 'center' }}>
                 <Text style={styles.ss}>Login</Text>
-                <TextInput style={styles.login} placeholder='UserName' onChangeText={(e) => {
-                    setusername(e)
+                <TextInput style={styles.login} value={phone} keyboardType='name-phone-pad' placeholder='phone' onChangeText={(e) => {
+                    setphone(e)
                 }} />
-                <TextInput style={styles.login} placeholder='Password' onChangeText={(e) => {
+                <TextInput value={password} style={styles.login} placeholder='Password' onChangeText={(e) => {
                     setoassword(e)
 
                 }}
-                secureTextEntry={true}
+                    secureTextEntry={true}
                 />
-                <TouchableOpacity onPress={() => { presslogin() }}>
+                <TouchableOpacity onPress={() => { loginApi() }}>
                     <View style={styles.logContainer}>
                         <Text style={styles.loginColor}>login</Text>
                     </View>
@@ -53,7 +56,7 @@ const Login = () => {
                     </TouchableOpacity>
 
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => { nav.navigate("tab") }}>
+                <TouchableOpacity onPress={() => { navigate.navigate("tab") }}>
                     <Text style={styles.d}>skip to the menu</Text>
                 </TouchableOpacity>
             </View>
@@ -111,6 +114,6 @@ const styles = StyleSheet.create({
     },
     icon: {
         marginRight: 320,
-marginTop:20
+        marginTop: 20
     }
 })

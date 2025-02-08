@@ -1,6 +1,6 @@
 export const data = [
     {
-        name: " pizza ",
+        name: " pizza s",
         price: 55,
         size: "200gr",
         quantity: 0,

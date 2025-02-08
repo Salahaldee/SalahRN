@@ -15,9 +15,9 @@ const Cart = () => {
     console.log("cart", cart);
 
 
-    
 
-    
+
+
     const deleteItem = (name) => {
         const filterdata = cart.filter(Item => Item.name !== name)
         console.log("filter", filterdata);
@@ -37,46 +37,20 @@ const Cart = () => {
     console.log(cart.length);
 
     useEffect(() => {
-      console.log("cart");
-      console.log(cart.length);
-      
+        console.log("cart");
+        console.log(cart.length);
+
     }, [cart])
-    
-    
+
+
 
     const rendererCart = () => {
-        const render = cart.map((val,index) => {
+        const render = cart.map((val, index) => {
             const totalPrice = val.price * val.quantity
 
             return (
-                <CardCart  {...val} index={index}/>
-                // <View style={styles.vl}>
-                //     <View style={styles.img}>
-
-                //     </View>
-
-                //     <View style={styles.lr}>
-                //         <Ionicons style={styles.tarsh} onPress={() => deleteItem(val.name)} name='trash-outline' size={25} color={"black"} />
-                //         <Text style={styles.bbw}>{val.name}</Text>
-                //         <Text style={styles.bbe}>{val.size}</Text>
-                //         <View style={styles.row}>
-                //             <Text style={styles.bb}>{totalPrice}</Text>
-                //             <TouchableOpacity style={styles.viu} onPress={(index)=>Add(index)}>
-                //                 <Text style={styles.funText}>+</Text>
-
-                //             </TouchableOpacity>
-                //             <Text style={styles.funText}>{x}</Text>
-                //             <TouchableOpacity onPress={Minus}>
-
-                //                 <Text style={styles.funText}>-</Text>
-                //             </TouchableOpacity>
-
-                //         </View>
-                //     </View>
-
-
-                // </View>
-
+                <CardCart  {...val} key={index} index={index} />
+                
             )
         })
         return render
@@ -85,7 +59,7 @@ const Cart = () => {
     return (
         <SafeAreaView style={styles.n}>
             <ScrollView>
-               
+
                 {rendererCart()}
                 <TouchableOpacity onPress={() => { }}>
 
@@ -119,15 +93,15 @@ const styles = StyleSheet.create({
     },
     tarsh: {
         alignSelf: 'flex-end',
-        
+
     },
-    row:{
-        flexDirection:"row",
-        alignSelf:'baseline',
-        gap:10
+    row: {
+        flexDirection: "row",
+        alignSelf: 'baseline',
+        gap: 10
     },
     img: {
-        width: '40%',
+        width: 40,
         height: 120,
         marginTop: 10,
         marginLeft: 8,
@@ -182,6 +156,6 @@ const styles = StyleSheet.create({
     n: {
         flex: 1,
         backgroundColor: "#4545",
-        paddingTop:20
+        paddingTop: 20
     },
 })

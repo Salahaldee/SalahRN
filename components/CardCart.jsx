@@ -1,50 +1,33 @@
-import { Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Image, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useContext, useState } from 'react'
 import StoreContext from '@/Store/StoreContext'
 import { router, useNavigation } from 'expo-router';
 import { Feather, Ionicons } from '@expo/vector-icons';
 import index from './../app/index';
 
-const CardCart = (val,index) => {
+const CardCart = (val, index) => {
 
     const navigate = useNavigation();
     const { cart, setCart } = useContext(StoreContext);
     const [x, SetX] = useState(1)
 
 
-
+    console.log("val", val);
+    
+    console.log("img", val);
 
 
 
     const deleteItem = (index) => {
-        cart.splice(index,1)
-        setCart((v)=>[...v])
+        cart.splice(index, 1)
+        setCart((v) => [...v])
         // return filterdata
     }
     return (
         <View style={styles.vl}>
-            <View style={styles.img}>
+            <Image source={{ uri: val.image }} style={styles.img} />
 
-            </View>
-
-            <View style={styles.lr}>
-                <Ionicons style={styles.tarsh} onPress={() => deleteItem(index)} name='trash-outline' size={25} color={"black"}/>
-                <Text style={styles.bbw}>{val.name}</Text>
-                <Text style={styles.bbe}>{val.size}</Text>
-                <View style={styles.row}>
-                    {/* <Text style={styles.bb}>{totalPrice}</Text> */}
-                    {/* <TouchableOpacity style={styles.viu} onPress={(index) => Add(index)}>
-                        <Text style={styles.funText}>+</Text>
-
-                    </TouchableOpacity>
-                    <Text style={styles.funText}>{x}</Text>
-                    <TouchableOpacity onPress={Minus}>
-
-                        <Text style={styles.funText}>-</Text>
-                    </TouchableOpacity> */}
-
-                </View>
-            </View>
+ 
 
 
         </View>
@@ -62,10 +45,10 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         padding: 10,
     },
-   row:{
-        flexDirection:"row",
-        alignSelf:'baseline',
-        gap:10
+    row: {
+        flexDirection: "row",
+        alignSelf: 'baseline',
+        gap: 10
     },
     img: {
         width: '40%',
@@ -114,7 +97,7 @@ const styles = StyleSheet.create({
     },
     tarsh: {
         alignSelf: 'flex-end',
-        marginRight:"auto",
+        marginRight: "auto",
     },
-   
+
 })

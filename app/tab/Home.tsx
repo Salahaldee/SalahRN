@@ -1,14 +1,15 @@
 import { Image, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Poduct from '@/components/Poduct'
 import { useNavigation } from 'expo-router'
-// import { data } from '../res/data'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { data } from '../res/data'
+import { FindProduct } from '@/constants/API'
+import { Ionicons } from '@expo/vector-icons'
 
 const Home = () => {
     const nav = useNavigation()
     const navigate = useNavigation();
+    const [dataApi, setData] = useState([])
     const [x, SetX] = useState(1)
 
     const openDrawer = () => {
@@ -20,12 +21,14 @@ const Home = () => {
     };
 
     const renddat = () => {
-        const cardarr = data.map(item => {
+        const cardarr = dataApi.map((item, i) => {
             return <Poduct
+                key={i}
                 name={item.name}
                 size={item.size}
                 price={item.price}
                 quantity={item.quantity}
+                image={item.image}
 
             />
         })
@@ -33,20 +36,36 @@ const Home = () => {
     }
 
 
+    const getdata = () => {
+        FindProduct().then((res) => {
+            // [].length
+            console.log("res", res.data);
+            if (res.data.length) {
+                setData(res.data)
+            } else {
+                alert("no data")
+            }
+        })
+    }
+
+    useEffect(() => {
+        getdata()
+    }, [])
 
 
 
     return (
 
-        <SafeAreaView style={{flexGrow: 1}}>
+        <SafeAreaView style={{ flexGrow: 1 }}>
             <View style={styles.Scroll}>
 
-               <View>
+                <View>
+                    {/* <Ionicons name='search-outline' style={styles.searsh} /> */}
+                 
+                    <Text style={styles.ddfs}>Burger 🍔</Text>
 
-                    <Text style={styles.ddfs}>pizza 🍕</Text>
 
-                  
-                </View> 
+                </View>
                 <ScrollView style={styles.Scroll}>
                     {renddat()}
                 </ScrollView>
@@ -66,7 +85,7 @@ const styles = StyleSheet.create({
         fontSize: 30,
         color: "#000000",
         marginTop: 15,
-        textAlign:"center"
+        textAlign: "center"
 
     },
     icon: {
@@ -75,8 +94,13 @@ const styles = StyleSheet.create({
     },
     Scroll: {
         flex: 1,
-        backgroundColor: "#4545",
-    }
+        backgroundColor: "#FFFFFF",
+    },
+    search: {
+        fontSize: 30,
+        color: "#000000"
+    },
+
 
 
 })

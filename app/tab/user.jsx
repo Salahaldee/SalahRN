@@ -17,8 +17,8 @@ const user = () => {
     
     return (
         <View style={styles.v}>
-            <Text style={{fontSize:40, textAlign:"center", marginTop:50,     backgroundColor: '#00FFFF', width:200, 
-            borderRadius: 10, marginLeft:75 }}>user</Text>
+            <Text style={styles.ll}>user</Text>
+       
 
 
                 
@@ -49,9 +49,14 @@ const styles = StyleSheet.create({
 
     },
 login:{
-    backgroundColor: '#E0FFFF',
-    padding: 8,
-    width: 250,
+    color:"#FFFAFA",
+    fontSize:30,
+    marginLeft:10,
+    marginTop:20,
+    backgroundColor:"#000000",
+    width:180,
+    height:40,
+
     marginTop: 80,
     borderRadius: 20,
     textAlign:"center",
@@ -59,14 +64,19 @@ login:{
     marginLeft:55
 },
 rr:{
-    backgroundColor: '#E0FFFF',
-    padding: 8,
-    width: 250,
+    color:"#FFFAFA",
+    fontSize:30,
+    marginLeft:10,
+    marginTop:20,
+    backgroundColor:"#000000",
+    width:180,
+    height:40,
+
     marginTop: 80,
     borderRadius: 20,
     textAlign:"center",
     fontSize:30,
-    marginLeft:55,
+    marginLeft:55
 },
 l:{
     textAlign:"center",
@@ -87,13 +97,18 @@ r:{
     fontSize:30,
     marginLeft:20,
     color:"#000000"
-
-    
-
-
 },
-
-
+ll:{
+    textAlign:"center",
+    color:"#FFFAFA",
+    fontSize:40,
+    backgroundColor:"#000000",
+    width:180,
+    // height:40,
+    marginTop: 80,
+    borderRadius: 30,
+    alignSelf:'center',
+}
 
 
 })

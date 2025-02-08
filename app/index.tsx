@@ -9,30 +9,25 @@ import StoreProvider from '@/Store/StoreProvider'
 
 const index = () => {
 
-  const [x, SetX] = useState(1)
   const navigate = useNavigation();
 
   useEffect(() => {
     const timer = setTimeout(() => {
       navigate.navigate('login')
+    }, 1500)
+  }, [])
 
 
-    },1500)
-  }
-
-
-  )
-  
 
 
   return (
-      <View style={styles.container}>
-        <View style={styles.dsca}>
-        
-        </View>
-        <Text style={styles.h}>welcome to🎗️pizza 🍕</Text>
+    <View style={styles.container}>
+      <View style={styles.dsca}>
 
       </View>
+      <Text onPress={() => navigate.navigate('login')} style={styles.h}>welcome to🎗️Burger🍔 </Text>
+
+    </View>
 
   )
 }
@@ -67,11 +62,11 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     marginTop: 25,
   },
-  h:{
-    color:"#000000",
-    textAlign:"center",
-    marginTop:300,
-    fontSize:33,
+  h: {
+    color: "#000000",
+    textAlign: "center",
+    marginTop: 300,
+    fontSize: 33,
   }
 
 

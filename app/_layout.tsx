@@ -24,7 +24,7 @@ export default function RootLayout() {
           <Stack.Screen name="login"options={{ headerShown: false,}} />
           <Stack.Screen name="Register"options={{ headerShown: false,}} />
           <Stack.Screen name="tab" options={{ headerShown: false,}}/>
-          <Stack.Screen name="sittenge" options={{ headerShown: false,}}/>
+          {/* <Stack.Screen name="sittenge" options={{ headerShown: false,}}/> */}
 
         </Stack>
       </StoreProvider>
