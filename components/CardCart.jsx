@@ -39,7 +39,8 @@ export default CardCart
 const styles = StyleSheet.create({
     vl: {
         flexDirection: 'row',
-        backgroundColor: "#FDF5E6",
+        backgroundColor: "#FFFFFF",
+
         borderWidth: 1,
         margin: 10,
         borderRadius: 20,

@@ -26,7 +26,8 @@ export default Poduct;
 const styles = StyleSheet.create({
     productContainer: {
         flexDirection: 'row',
-        backgroundColor: "#FDF5E6",
+        backgroundColor: "#FFFAFA",
+
         borderWidth: 1,
         margin: 10,
         borderRadius: 20,

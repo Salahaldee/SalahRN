@@ -49,6 +49,7 @@ const Cart = () => {
             const totalPrice = val.price * val.quantity
 
             return (
+                
                 <CardCart  {...val} key={index} index={index} />
                 
             )
@@ -73,10 +74,14 @@ const Cart = () => {
 export default Cart
 
 const styles = StyleSheet.create({
-
+    n: {
+        backgroundColor: "#FFFFFF",
+        flex:1,
+        paddingTop: 20,
+    },
     vl: {
         flexDirection: 'row',
-        backgroundColor: "#FDF5E6",
+        backgroundColor: "#FFFFFF",
         borderWidth: 1,
         margin: 10,
         borderRadius: 20,
@@ -153,9 +158,5 @@ const styles = StyleSheet.create({
         marginTop: -70,
         marginLeft: "auto"
     },
-    n: {
-        flex: 1,
-        backgroundColor: "#4545",
-        paddingTop: 20
-    },
+
 })
