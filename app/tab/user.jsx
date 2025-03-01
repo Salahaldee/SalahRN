@@ -1,117 +1,86 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
-import { TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import React, { useContext } from 'react';
 import { useNavigation } from 'expo-router';
+import StoreContext from './../../Store/StoreContext';
 
-const user = () => {
-    const nav = useNavigation()
-    const navigate = useNavigation();
-
-
-    const goTologin = () => {
-        navigate.navigate("login")
-    };
-    const goTor = () => {
-        navigate.navigate("Register")
-    };
+const User = () => {
+    const navigation = useNavigation();
+    const { user, isNightMode } = useContext(StoreContext); // Get user & Night Mode state
+    const styles = getStyles(isNightMode); // Generate styles dynamically
 
     return (
-        <View style={styles.v}>
-            <Text style={styles.ll}>user</Text>
+        <View style={styles.container}>
+            {/* User Name Display */}
+            <Text style={styles.userName}>{user?.userName || "User"}</Text>
 
-
-
-
-            <View>
-                <Text style={styles.l}>go to the login</Text>
-                <TouchableOpacity onPress={goTologin}>
-
-                    <Text style={styles.login}>Login</Text>
+            {/* Login Button */}
+            <View style={styles.buttonContainer}>
+                <Text style={styles.label}>Go to Login</Text>
+                <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("login")}>
+                    <Text style={styles.buttonText}>Login</Text>
                 </TouchableOpacity>
             </View>
-            <View>
-                <Text style={styles.r}>go to the register</Text>
 
-                <TouchableOpacity onPress={goTor}>
-                    <Text style={styles.rr}>Register</Text>
+            {/* Register Button */}
+            <View style={styles.buttonContainer}>
+                <Text style={styles.label}>Go to Register</Text>
+                <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("Register")}>
+                    <Text style={styles.buttonText}>Register</Text>
                 </TouchableOpacity>
             </View>
         </View>
-    )
-}
+    );
+};
 
-export default user
+export default User;
 
-const styles = StyleSheet.create({
-    v: {
-        
-        textAlign: "center",
-        backgroundColor: "#FFFFFF",
-        flex:1,
-
-    },
-    login: {
-        color: "#FFFAFA",
-        fontSize: 30,
-        marginLeft: 10,
-        marginTop: 20,
-        backgroundColor: "#000000",
-        width: 180,
-        height: 40,
-
-        marginTop: 80,
-        borderRadius: 20,
-        textAlign: "center",
-        fontSize: 30,
-        marginLeft: 55
-    },
-    rr: {
-        color: "#FFFAFA",
-        fontSize: 30,
-        marginLeft: 10,
-        marginTop: 20,
-        backgroundColor: "#000000",
-        width: 180,
-        height: 40,
-
-        marginTop: 80,
-        borderRadius: 20,
-        textAlign: "center",
-        fontSize: 30,
-        marginLeft: 55
-    },
-    l: {
-        textAlign: "center",
-        marginTop: 50,
-        marginRight: "auto",
-        fontSize: 30,
-        marginLeft: 20,
-        color: "0000000"
-
-
-
-
-    },
-    r: {
-        textAlign: "center",
-        marginTop: 40,
-        marginRight: "auto",
-        fontSize: 30,
-        marginLeft: 20,
-        color: "#000000"
-    },
-    ll: {
-        textAlign: "center",
-        color: "#FFFAFA",
-        fontSize: 40,
-        backgroundColor: "#000000",
-        width: 180,
-        // height:40,
-        marginTop: 80,
-        borderRadius: 30,
-        alignSelf: 'center',
-        
-    }
-
-
-})
+// Dynamic styling for Night Mode
+const getStyles = (isNightMode) =>
+    StyleSheet.create({
+        container: {
+            flex: 1,
+            backgroundColor: isNightMode ? "#1E1E1E" : "#FFFFFF",
+            justifyContent: "center",
+            alignItems: "center",
+            paddingHorizontal: 20,
+        },
+        userName: {
+            backgroundColor: "#FFD700",
+            width: 200,
+            height: 60,
+            borderRadius: 50,
+            fontSize: 30,
+            textAlign: "center",
+            textAlignVertical: "center",
+            fontWeight: "bold",
+            borderWidth: 2,
+            borderColor: isNightMode ? "#222" : "#FFFFFF",
+            color: isNightMode ? "#000000" : "#000000",
+            marginBottom: 90,
+        },
+        buttonContainer: {
+            marginBottom: 30,
+            alignItems: "center",
+        },
+        label: {
+            fontSize: 22,
+            color: isNightMode ? "#FFD700" : "#000000",
+            marginBottom: 10,
+            fontWeight: "bold",
+        },
+        button: {
+            backgroundColor: "#FFD700",
+            width: 180,
+            height: 50,
+            borderRadius: 25,
+            justifyContent: "center",
+            alignItems: "center",
+            borderWidth: 2,
+            borderColor: isNightMode ? "#222" : "#FFFFFF",
+        },
+        buttonText: {
+            fontSize: 22,
+            fontWeight: "bold",
+            color: "#000000",
+        },
+    });

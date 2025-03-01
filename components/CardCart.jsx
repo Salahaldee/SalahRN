@@ -1,104 +1,131 @@
-import { Image, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React, { useContext, useState } from 'react'
-import StoreContext from '@/Store/StoreContext'
-import { router, useNavigation } from 'expo-router';
-import { Feather, Ionicons } from '@expo/vector-icons';
+import { ActivityIndicator, Image, Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import React, { useContext, useState } from 'react';
+import StoreContext from '@/Store/StoreContext';
+import { Ionicons } from '@expo/vector-icons';
 import index from './../app/index';
 
-const CardCart = (val, index) => {
-
-    const navigate = useNavigation();
+const CardCart = (item) => {
     const { cart, setCart } = useContext(StoreContext);
-    const [x, SetX] = useState(1)
+    const [quantity, setQuantity] = useState(item.quantity);
+    const [loading, setLoading] = useState(false);
+    const { isNightMode, setIsNightMode } = useContext(StoreContext)
+    console.log(item);
 
-
-    console.log("val", val);
-    
-    console.log("img", val);
-
-
-
-    const deleteItem = (index) => {
-        cart.splice(index, 1)
-        setCart((v) => [...v])
-        // return filterdata
+    const sleep = () => {
+        setTimeout(() => {
+            setLoading(false)
+        }, 500);
     }
+
+    const update = (newQuantity) => {
+        setTimeout(() => {
+            cart[item.index].quantity = newQuantity;
+            setCart([...cart]);
+            setLoading(false)
+        }, 50);
+    }
+
+    const updateQuantity = (type) => {
+        let newQuantity = quantity;
+        if (type === 'increase') {
+            newQuantity += 1;
+        } else if (type === 'decrease' && quantity > 1) {
+            newQuantity -= 1;
+        }
+        setQuantity(newQuantity);
+        setLoading(true)
+        update(newQuantity)
+    };
+
+    const deleteItem = () => {
+        //.splice(index, 1)
+        console.log("index", item.index);
+
+        console.log("test", cart.length);
+        cart.splice(item.index, 1)
+        console.log("test", cart.length);
+
+        setCart([...cart]);
+    };
+
     return (
-        <View style={styles.vl}>
-            <Image source={{ uri: val.image }} style={styles.img} />
-
- 
-
-
+        <View style={styles.cardContainer}>
+            <Image source={{ uri: item.image }} style={styles.img} />
+            <View style={styles.infoContainer}>
+                <Text style={styles.itemName}>{item?.name}</Text>
+                {/* <Text style={styles.price}>${item.price.toFixed(2)}</Text> */}
+                <View style={styles.quantityContainer}>
+                    <TouchableOpacity onPress={() => updateQuantity('decrease')} style={styles.quantityButton}>
+                        <Ionicons name="remove" size={20} color="white" />
+                    </TouchableOpacity>
+                    {
+                        loading ?
+                            <ActivityIndicator /> :
+                            <Text style={styles.quantityText}>{quantity}</Text>
+                    }
+                    <TouchableOpacity onPress={() => updateQuantity('increase')} style={styles.quantityButton}>
+                        <Ionicons name="add" size={20} color="white" />
+                    </TouchableOpacity>
+                </View>
+            </View>
+            <Text style={styles.price}>{item?.price * quantity}₪</Text>
+            <TouchableOpacity onPress={deleteItem} style={styles.deleteButton}>
+                <Ionicons name="trash" size={24} color="red" />
+            </TouchableOpacity>
         </View>
-    )
-}
+    );
+};
 
-export default CardCart
+export default CardCart;
 
 const styles = StyleSheet.create({
-    vl: {
+    cardContainer: {
         flexDirection: 'row',
-        backgroundColor: "#FFFFFF",
-
+        backgroundColor: '#FFFFFF',
         borderWidth: 1,
-        margin: 10,
-        borderRadius: 20,
+        borderColor: '#ddd',
+        borderRadius: 15,
         padding: 10,
-    },
-    row: {
-        flexDirection: "row",
-        alignSelf: 'baseline',
-        gap: 10
+        margin: 10,
+        alignItems: 'center',
     },
     img: {
-        width: '40%',
-        height: 120,
-        marginTop: 10,
-        marginLeft: 8,
-        marginRight: 10,
-        backgroundColor: "#4545",
-        borderRadius: 10
-    },
-    bb: {
-        color: 'black',
-        fontSize: 20,
-        backgroundColor: 'white',
+        width: 80,
+        height: 80,
         borderRadius: 10,
-        padding: 2,
-        width: 60,
-        textAlign: 'center',
-        marginRight: 'auto',
-        // marginBottom: 150,
+        marginRight: 10,
     },
-    bbw: {
-        color: "#000000",
-        fontSize: 25,
-        // textAlign: 'center',
-        marginTop: 15,
-
+    infoContainer: {
+        flex: 1,
     },
-    bbe: {
-        color: '#FFD700',
-        fontSize: 20,
-        marginRight: 'auto',
-
+    itemName: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        color: '#000',
     },
-
-    funText: {
-        fontSize: 25,
-        textAlign: 'center',
-        color: "#000000",
-        marginTop: "auto",
-        // marginHorizontal: 20,
-
+    price: {
+        fontSize: 23,
+        color: 'black',
+        marginVertical: 5,
+        marginRight: 15,
+        marginTop: 30
     },
-    viu: {
-
+    quantityContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginTop: 5,
     },
-    tarsh: {
-        alignSelf: 'flex-end',
-        marginRight: "auto",
+    quantityButton: {
+        backgroundColor: '#007BFF',
+        padding: 5,
+        borderRadius: 5,
     },
-
-})
+    quantityText: {
+        fontSize: 18,
+        marginHorizontal: 10,
+        fontWeight: 'bold',
+    },
+    deleteButton: {
+        marginLeft: 10,
+    },
+});

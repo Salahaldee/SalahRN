@@ -1,17 +1,21 @@
 import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import React from 'react';
+import React, { useContext } from 'react';
 import { useNavigation } from 'expo-router';
+import StoreContext from '@/Store/StoreContext';
 
-const Poduct = (props) => {
+const Product = (props) => {
+    const { isNightMode } = useContext(StoreContext);
     const nav = useNavigation();
+    const styles = getStyles(isNightMode); // Dynamically get styles
 
     return (
-        <TouchableOpacity onPress={() => nav.navigate('screen2', { ...props })} style={styles.productContainer}>
-            {/* <View style={styles.image}>
-            </View> */}
-                <Image style={styles.image} source={{uri:props.image}}/>
+        <TouchableOpacity
+            onPress={() => nav.navigate('screen2', { ...props })}
+            style={styles.productContainer}
+        >
+            <Image style={styles.image} source={{ uri: props.image }} />
             <View style={styles.details}>
-                <ScrollView>
+                <ScrollView contentContainerStyle={styles.scrollContent}>
                     <Text style={styles.name}>{props.name}</Text>
                     <Text style={styles.size}>Size: {props.size}</Text>
                     <Text style={styles.price}>{props.price}₪</Text>
@@ -21,47 +25,55 @@ const Poduct = (props) => {
     );
 };
 
-export default Poduct;
+export default Product;
 
-const styles = StyleSheet.create({
-    productContainer: {
-        flexDirection: 'row',
-        backgroundColor: "#FFFAFA",
-
-        borderWidth: 1,
-        margin: 10,
-        borderRadius: 20,
-        padding: 10,
-    },
-    image: {
-        width: '40%',
-        height: 120,
-        marginTop: 10,
-        marginRight: 10,
-        backgroundColor: "#4545",
-        borderRadius: 10,
-    },
-    details: {
-        flex: 1,
-    },
-    name: {
-        color: "#000000",
-        fontSize: 25,
-        marginTop: 20,
-    },
-    size: {
-        color: '#FFD700',
-        fontSize: 20,
-        marginRight: 'auto',
-    },
-    price: {
-        color: 'black',
-        fontSize: 20,
-        backgroundColor: 'white',
-        borderRadius: 10,
-        padding: 2,
-        width: 60,
-        textAlign: 'center',
-        marginRight: 'auto',
-    },
-});
+const getStyles = (isNightMode) =>
+    StyleSheet.create({
+        productContainer: {
+            flexDirection: 'row',
+            backgroundColor: isNightMode ? '#1E1E1E' : '#F8F8F8',
+            borderWidth: 1,
+            borderColor: isNightMode ? '#333' : '#CCC',
+            marginVertical: 10,
+            marginHorizontal: 20,
+            borderRadius: 15,
+            padding: 15,
+            elevation: 3,
+            flexWrap: 'wrap',
+        },
+        image: {
+            width: 120,
+            height: 120,
+            borderRadius: 10,
+            marginRight: 15,
+            backgroundColor: "#C4C4C4",
+        },
+        details: {
+            flex: 1,
+            justifyContent: 'space-between',
+        },
+        scrollContent: {
+            paddingRight: 10,
+        },
+        name: {
+            color: isNightMode ? '#FFD700' : '#222',
+            fontSize: 24,
+            fontWeight: 'bold',
+            marginBottom: 5,
+            textTransform: 'capitalize',
+        },
+        size: {
+            color: isNightMode ? '#A9A9A9' : '#555',
+            fontSize: 18,
+        },
+        price: {
+            color: isNightMode ? 'white' : '#222',
+            fontSize: 20,
+            backgroundColor: '#FFD700',
+            borderRadius: 10,
+            paddingHorizontal: 10,
+            paddingVertical: 5,
+            textAlign: 'center',
+            width: 80,
+        },
+    });

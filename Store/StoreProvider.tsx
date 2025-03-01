@@ -3,13 +3,16 @@ import StoreContext from "./StoreContext";
 
 const StoreProvider = props => {
     const [cart, setCart] = useState([])
+    const [user, setUser] = useState([])
+    const [isNightMode, setIsNightMode] = useState(false);
 
     const providerValue = {
-        cart,
-        setCart
+        cart, setCart,
+        user, setUser,
+        isNightMode, setIsNightMode
     }
 
-    return(
+    return (
         <StoreContext.Provider value={providerValue}>
             {props.children}
         </StoreContext.Provider>

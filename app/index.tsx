@@ -1,73 +1,70 @@
-
-import { StyleSheet, Text, View, ScrollView, Pressable, TouchableOpacity, } from 'react-native'
-import React, { useEffect, useState } from 'react'
-import { data } from './res/data'
-import Poduct from '@/components/Poduct'
+import { StyleSheet, Text, View, Animated } from 'react-native'
+import React, { useContext, useEffect, useRef } from 'react'
 import { useNavigation } from 'expo-router'
-import { Feather } from '@expo/vector-icons'
-import StoreProvider from '@/Store/StoreProvider'
+import StoreContext from '@/Store/StoreContext';
 
-const index = () => {
+const Index = () => {
+  const navigation = useNavigation();
+  const { isNightMode, setIsNightMode } = useContext(StoreContext)
 
-  const navigate = useNavigation();
+  // Animation values
+  const fadeAnim = useRef(new Animated.Value(150)).current; // Opacity
+  const translateYAnim = useRef(new Animated.Value(150)).current; // Vertical movement
 
   useEffect(() => {
+    // Start animations when component mounts
+    Animated.timing(fadeAnim, {
+      toValue: 1,
+      duration: 2000,
+      useNativeDriver: true,
+    }).start();
+
+    Animated.timing(translateYAnim, {
+      toValue: 0,
+      duration: 2000,
+      useNativeDriver: true,
+    }).start();
+
+    // Navigate after 1.5 seconds
     const timer = setTimeout(() => {
-      navigate.navigate('login')
-    }, 1500)
-  }, [])
+      navigation.navigate('login');
+    }, 2000);
 
-
-
+    return () => clearTimeout(timer); // Cleanup timer
+  }, [navigation, fadeAnim, translateYAnim]);
 
   return (
     <View style={styles.container}>
-      <View style={styles.dsca}>
-
-      </View>
-      <Text onPress={() => navigate.navigate('login')} style={styles.h}>welcome to🎗️Burger🍔 </Text>
-
+      <Animated.View 
+        style={[
+          styles.content, 
+          { opacity: fadeAnim, transform: [{ translateY: translateYAnim }] }
+        ]}
+      >
+        <Text onPress={() => navigation.navigate('login')} style={styles.h}>
+          Welcome to 🎗️Burger🍔
+        </Text>
+      </Animated.View>
     </View>
-
-  )
+  );
 }
 
-export default index
+export default Index;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#4545"
-  },
-  ddfs: {
-    fontSize: 35,
-    color: "white",
-    backgroundColor: "black"
-  },
-  ddo: {
-    fontSize: 80,
-    textAlign: "center",
+    backgroundColor: "#FFFFFF", // Black background
     justifyContent: "center",
-    bottom: -250,
-    color: "red",
-
+    alignItems: "center",
   },
-  mm: {
-    width: 360,
-    height: 390,
-    marginTop: 145,
-
-  },
-  dsca: {
-    marginLeft: 10,
-    marginTop: 25,
+  content: {
+    alignItems: "center",
   },
   h: {
-    color: "#000000",
+    color: "#FFD700", // Gold text
     textAlign: "center",
-    marginTop: 300,
     fontSize: 33,
-  }
-
-
-})
+    fontWeight: "bold",
+  },
+});
