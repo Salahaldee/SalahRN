@@ -30,7 +30,7 @@ const Register = () => {
             if (res.success) {
                 navigation.navigate('tab');
             } else {
-                Alert.alert('Error', `Username or phone number is invalid.`);//\n ${res.message}
+                Alert.alert('Error', `Username or phone number is invalid.`);//\n ${res.message}/
             }
         } catch (error) {
             Alert.alert('Registration Failed', 'Please try again later.');

@@ -66,7 +66,7 @@ const Screen2 = () => {
 
                 <TouchableOpacity onPress={() => navigation.goBack()} style={styles.iconContainer}>
                     <Ionicons name="chevron-back-outline" size={45} color={isNightMode ? "#FFF" : "#000"} />
-                </TouchableOpacity>
+                </TouchableOpacity>             
             </Animated.View>
         </View>
     );
