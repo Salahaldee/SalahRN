@@ -109,11 +109,13 @@ const getStyles = (isNightMode) =>
             textAlign: 'center',
             marginVertical: 10,
             color: isNightMode ? "#FFD700" : "#000000",
+
         },
         quantityContainer: {
             flexDirection: 'row',
             justifyContent: 'center',
             alignItems: 'center',
+            gap: 13,
             marginVertical: 10,
         },
         addToCartButton: {

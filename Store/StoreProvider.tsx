@@ -5,11 +5,13 @@ const StoreProvider = props => {
     const [cart, setCart] = useState([])
     const [user, setUser] = useState([])
     const [isNightMode, setIsNightMode] = useState(false);
+    const [language, setLanguage] = useState('en')
 
     const providerValue = {
         cart, setCart,
         user, setUser,
-        isNightMode, setIsNightMode
+        isNightMode, setIsNightMode,
+        
     }
 
     return (

@@ -1,15 +1,26 @@
 import { Alert, StyleSheet, Text, TouchableOpacity, View, TextInput, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useNavigation } from 'expo-router';
+// import AsyncStorage from '@react-native-async-storage/async-storage';
 import { login } from './../constants/API';
 import StoreContext from '@/Store/StoreContext';
-import { Ionicons } from '@expo/vector-icons';
 
 const Login = () => {
-    const { setUser, isNightMode } = useContext(StoreContext); // Combined useContext
+    const { setUser, isNightMode } = useContext(StoreContext);
     const [phone, setPhone] = useState('');
     const [password, setPassword] = useState('');
     const navigate = useNavigation();
+
+    useEffect(() => {
+        const checkLogin = async () => {
+            const savedUser = await AsyncStorage.getItem('user');
+            if (savedUser) {
+                setUser(JSON.parse(savedUser));
+                navigate.navigate('tab');
+            }
+        };
+        checkLogin();
+    }, []);
 
     const pressRegister = () => navigate.navigate('Register');
 
@@ -23,6 +34,7 @@ const Login = () => {
             const res = await login({ phone, password });
             if (res?.data) {
                 setUser(res.data);
+                await AsyncStorage.setItem('user', JSON.stringify(res.data));
                 navigate.navigate('tab');
             } else {
                 Alert.alert("Login Failed", "Invalid phone number or password.");
@@ -32,7 +44,13 @@ const Login = () => {
         }
     };
 
-    const styles = getStyles(isNightMode); // Get dynamic styles
+    const logout = async () => {
+        await AsyncStorage.removeItem('user');
+        setUser(null);
+        navigate.navigate('Login');
+    };
+
+    const styles = getStyles(isNightMode);
 
     return (
         <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.container}>
@@ -68,7 +86,10 @@ const Login = () => {
                 <TouchableOpacity onPress={() => navigate.navigate('tab')}>
                     <Text style={styles.skipLink}>Skip to Menu</Text>
                 </TouchableOpacity>
-                
+
+                <TouchableOpacity onPress={logout} style={styles.logoutButton}>
+                    <Text style={styles.logoutButtonText}>Logout</Text>
+                </TouchableOpacity>
             </ScrollView>
         </KeyboardAvoidingView>
     );
@@ -76,7 +97,6 @@ const Login = () => {
 
 export default Login;
 
-// Dynamic styles for Night Mode
 const getStyles = (isNightMode) =>
     StyleSheet.create({
         container: {
@@ -134,5 +154,19 @@ const getStyles = (isNightMode) =>
             fontSize: 16,
             marginTop: 10,
             textDecorationLine: 'underline',
+        },
+        logoutButton: {
+            backgroundColor: '#FF4C4C',
+            width: '80%',
+            padding: 15,
+            alignItems: 'center',
+            borderRadius: 8,
+            marginTop: 20,
+            elevation: 3,
+        },
+        logoutButtonText: {
+            fontSize: 18,
+            fontWeight: 'bold',
+            color: '#FFF',
         },
     });

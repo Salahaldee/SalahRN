@@ -79,7 +79,7 @@ const styles = (isNightMode) =>
             color: isNightMode ? "#FFD700" : "#000",
             marginTop: 15,
             textAlign: "center",
-        },
+        }, 
         scrollContent: {
             paddingVertical: 10,
         },

@@ -1,19 +1,27 @@
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-import React, { useContext, useState } from 'react';
+import { StyleSheet, Text, View, TouchableOpacity, Linking } from 'react-native';
+import React, { useContext } from 'react';
 import StoreContext from '@/Store/StoreContext';
 
 const Settinge = () => {
-  // const [isNightMode, setIsNightMode] = useState(false); // State to toggle modes
-  const { isNightMode, setIsNightMode } = useContext(StoreContext)
+  const { isNightMode, setIsNightMode } = useContext(StoreContext);
 
   const toggleMode = () => {
-    setIsNightMode(!isNightMode); // Toggle between night and day modes
+    setIsNightMode(!isNightMode);
   };
+
+  // Function to initiate a call when the number is pressed
+  const handleCall = () => {
+    const phoneNumber = 'tel:0505249480';
+    Linking.openURL(phoneNumber);
+  }; 
 
   return (
     <View style={[styles.container, isNightMode && styles.nightMode]}>
       <Text style={[styles.numberPhone, isNightMode && styles.nightText]}>To contact the app owner:</Text>
-      <Text style={[styles.numberPhone1, isNightMode && styles.nightText]}>0505249480</Text>
+
+      <TouchableOpacity onPress={handleCall}>
+        <Text style={[styles.numberPhone1, isNightMode && styles.nightText]}>0505249480</Text>
+      </TouchableOpacity>
 
       {/* Toggle button to switch modes */}
       <TouchableOpacity onPress={toggleMode} style={[styles.toggleButton, isNightMode && styles.nightButton]}>
@@ -30,21 +38,21 @@ export default Settinge;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFFFFF', // White background for day mode
+    backgroundColor: '#FFFFFF',
     justifyContent: 'center',
     alignItems: 'center',
   },
   nightMode: {
-    backgroundColor: '#1E1E1E', // Black background for night mode
+    backgroundColor: '#1E1E1E',
   },
   numberPhone: {
     fontSize: 28,
-    color: '#000000', // Black text for day mode
+    color: '#000000',
     textAlign: 'center',
     marginBottom: 33,
   },
   nightText: {
-    color: '#FFD700', // Gold text for night mode
+    color: '#FFD700',
   },
   numberPhone1: {
     backgroundColor: 'white',
@@ -59,21 +67,21 @@ const styles = StyleSheet.create({
     marginBottom: 40,
   },
   toggleButton: {
-    backgroundColor: '#FFD700', // Gold background for button
+    backgroundColor: '#FFD700',
     paddingVertical: 12,
     paddingHorizontal: 40,
     borderRadius: 20,
     marginTop: 20,
   },
   nightButton: {
-    backgroundColor: '#FFD700', // Gold button for night mode
+    backgroundColor: '#FFD700',
   },
   toggleButtonText: {
     fontSize: 18,
-    color: '#000000', // Black text for day mode
+    color: '#000000',
     textAlign: 'center',
   },
   nightButtonText: {
-    color: '#FFFFFF', // White text for night mode
+    color: '#FFFFFF',
   },
 });
