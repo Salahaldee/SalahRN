@@ -31,10 +31,12 @@ const Login = () => {
         }
 
         try {
-            const res = await login({ phone, password });
+            const res = await login({ phone: phone, "passwsord": password });
+            console.log({ phone: phone, "passwsord": password });
+
             if (res?.data) {
                 setUser(res.data);
-                await AsyncStorage.setItem('user', JSON.stringify(res.data));
+                // await AsyncStorage.setItem('user', JSON.stringify(res.data));
                 navigate.navigate('tab');
             } else {
                 Alert.alert("Login Failed", "Invalid phone number or password.");
@@ -44,11 +46,7 @@ const Login = () => {
         }
     };
 
-    const logout = async () => {
-        await AsyncStorage.removeItem('user');
-        setUser(null);
-        navigate.navigate('Login');
-    };
+    
 
     const styles = getStyles(isNightMode);
 
@@ -87,9 +85,7 @@ const Login = () => {
                     <Text style={styles.skipLink}>Skip to Menu</Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity onPress={logout} style={styles.logoutButton}>
-                    <Text style={styles.logoutButtonText}>Logout</Text>
-                </TouchableOpacity>
+               
             </ScrollView>
         </KeyboardAvoidingView>
     );
@@ -145,28 +141,16 @@ const getStyles = (isNightMode) =>
         },
         registerLink: {
             color: isNightMode ? '#FFD700' : '#000000',
-            fontSize: 16,
+            fontSize: 18,
             marginTop: 15,
             textDecorationLine: 'underline',
         },
         skipLink: {
             color: isNightMode ? '#FFD700' : '#000000',
-            fontSize: 16,
-            marginTop: 10,
+            fontSize: 18,
+            marginTop: 13,
             textDecorationLine: 'underline',
         },
-        logoutButton: {
-            backgroundColor: '#FF4C4C',
-            width: '80%',
-            padding: 15,
-            alignItems: 'center',
-            borderRadius: 8,
-            marginTop: 20,
-            elevation: 3,
-        },
-        logoutButtonText: {
-            fontSize: 18,
-            fontWeight: 'bold',
-            color: '#FFF',
-        },
+        
+       
     });

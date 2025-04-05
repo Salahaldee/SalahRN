@@ -10,6 +10,7 @@ const StackScreen = () => {
       <Stack.Screen name="Home" />
       <Stack.Screen name="screen2" />
       <Stack.Screen name="cart" />
+      <Stack.Screen name="language" />
     </Stack>
   )
 }

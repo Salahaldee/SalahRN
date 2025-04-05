@@ -5,7 +5,6 @@ import StoreContext from '@/Store/StoreContext';
 
 const Index = () => {
   const navigation = useNavigation();
-  const { isNightMode, setIsNightMode } = useContext(StoreContext)
 
   // Animation values
   const fadeAnim = useRef(new Animated.Value(150)).current; // Opacity
@@ -42,7 +41,7 @@ const Index = () => {
         ]}
       >
         <Text onPress={() => navigation.navigate('login')} style={styles.h}>
-          Welcome to 🎗️Burger🍔
+          Welcome to ✨Burger🍔
         </Text>
       </Animated.View>
     </View>
